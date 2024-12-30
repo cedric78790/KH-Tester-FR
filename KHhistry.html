@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des résultats KH</title>
+
+		<style type="text/css">
+			/* Style du tableau */
+			table {
+				width: 90%;
+				background: #ccc;
+				margin: 10px auto;
+				border-collapse: collapse; /* Élimine les marges internes et externes par défaut des cellules */
+			}
+			th,td {
+				height: 25px;
+				line-height: 25px;
+				text-align: center;
+				border: 1px solid #ccc;
+			}
+			th {
+				background: #eee;
+				font-weight: normal;
+			}
+			tr {
+				background: #fff;
+			}
+			tr:hover {
+				background: #cc0;
+			}
+			td a {
+				color: #06f;
+				text-decoration: none;
+			}
+			td a:hover {
+				color: #06f;
+				text-decoration: underline;
+			}
+		</style>
+        <style>
+        div.top {
+            text-align: center;
+            font-size: 15px;
+            background-color: #cccccc;
+        }
+        body, h1 {
+            margin: 0;
+            padding: 0;
+        }
+        </style>
+</head>
+<body>
+<div class="top"><h1>Reef KH Tester</h1></div>
+<p><a style="margin: 20px; font-size: 20px;" href="{{ url_for('main') }}" rel="external nofollow">Retour à l'accueil (HOME)</a></p>
+<table class="table table-striped">
+    <tr>
+        <th>N° (No.)</th>
+        <th>Date</th>
+        <th>Heure (Time)</th>
+        <th>Résultat (Result)</th>
+        <th>Titrage (Titration)</th>
+    </tr>
+    {% for KHResult  in KHResultlist %}
+        <tr>
+            <td>{{ KHResult.id }}</td>
+            <td>{{ KHResult.Date }}</td>
+            <td>{{ KHResult.Time }}</td>
+            <td>{{ KHResult.KHresult }}</td>
+            <td>{{ KHResult.ADDKH }}</td>
+        </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

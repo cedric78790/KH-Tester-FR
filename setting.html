@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paramètres</title>
+    <script src="/static/jquery.min.js"></script>
+<!-- Inclure tous les plugins compilés (ci-dessous), ou inclure les fichiers nécessaires individuellement -->
+<script src="static/echarts.js"></script>
+<script src="static/jAlert.js"></script>
+    <style>
+        div.top {
+            text-align: center;
+            font-size: 15px;
+            background-color: #cccccc;
+        }
+        body, h1 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .sett {
+            float: left;
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+<div class="top"><h1>Reef KH Tester</h1></div>
+<p><a style="margin: 20px; font-size: 20px;" href="{{ url_for('main') }}" rel="external nofollow">Retour à l'accueil (HOME)</a></p>
+
+<div class="sett">
+<div style="margin-left: 40px;">
+<div>
+    <button class="bt3" style="text-align: center; font-size: 20px; height: 35px; line-height: 35px; padding: 0 30px; margin: 20px; color: #fff; background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Calibration de la sonde PH</button>
+</div>
+<div>
+    <button class="CalibrationSPV" style="text-align: center; font-size: 20px; height: 35px; line-height: 35px; padding: 0 30px; margin: 20px; color: #fff; background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Calibration du volume de la chambre de réaction</button>
+</div>
+<p>Volume actuel de la chambre de réaction : <span id="samplev"></span><span>ml</span></p>
+<form>
+Définir le volume de la chambre de réaction : <input style="width: 140px; padding: 5px; margin: 20px; font-size: 15px;" type="number" step="0.01" id="sampleV1" name="sampleV1">
+<input style="font-size: 20px; height: 35px; line-height: 35px; padding: 0 30px; margin: 20px; color: #fff; background-color: #1F7EFE; border-radius: 5px; cursor: pointer;" type="button" value="Valider" class="setSPV"/>
+</form>
+<div>
+    <button class="CalibrationACIV" style="text-align: center; font-size: 20px; height: 35px; line-height: 35px; padding: 0 30px; margin: 20px; color: #fff; background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Calibration du débit de la pompe réactive</button>
+</div>
+<form>
+    <p>Débit actuel de la pompe réactive : <span id="ACIV1"></span><span>ml par 100 gouttes</span></p>
+<form>
+Définir le débit de la pompe réactive (100 gouttes) : 
+<input style="width:60px;padding: 5px;margin: 20px;font-size:15px;" type="number" step="0.01" id="ACIV" name="ACIV">
+<input style="font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;" type="button" value="Valider" class="setACIV"/>
+</form>
+<div>
+    <button class="CalibrationKHpump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Calibration du débit de la pompe de titration</button>
+</div>
+<form>
+    <p>Débit actuel de la pompe de titration : <span id="KHpump1"></span><span>ml/10 s</span></p>
+Définir le débit de la pompe de titration : 
+<input style="width:60px;padding: 5px;margin: 20px;font-size:15px;" type="number" step="0.01" id="KHpump" name="KHpump">
+<input style="font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;" type="button" value="Valider" class="KHpump"/>
+</form>
+</div>
+</div>
+<div class="sett">
+    <div style="margin-left:40px;">
+        <div>
+        <button class="openinpump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Activer la pompe d'entrée (Open Water-in Pump)</button>
+        <button class="closeinpump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Désactiver la pompe d'entrée (Close Water-in Pump)</button>
+        </div>
+        <div>
+        <button class="openoutpump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Activer la pompe de sortie (Open Water-out Pump)</button>
+        <button class="closeoutpump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Désactiver la pompe de sortie (Close Water-out Pump)</button>
+        </div>
+        <div>
+        <button class="openKHpump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Activer la pompe de titration (Open Titration Pump)</button>
+        <button class="closeKHpump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Désactiver la pompe de titration (Close Titration Pump)</button>
+        </div>
+        <div>
+        <button class="openpharmacypump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Activer la pompe réactive (Open Reagent Pump)</button>
+        <button class="closepharmacypump" style="text-align:center;font-size:20px;height: 35px; line-height: 35px; padding: 0 30px;margin: 20px;color: #fff;background-color: #1F7EFE; border-radius: 5px; cursor: pointer;">Désactiver la pompe réactive (Close Reagent Pump)</button>
+</div>
+    </div>
+</div>
+
+<script>
+	var log1 = console.log.bind(console);
+	$(function () {
+		$(".bt3").click(function () {
+			jConfirm('Astuce', 'Veuillez confirmer que l\'électrode PH est placée dans la solution standard !', 'Valider', function () {
+      $.getJSON('/CalibrationKH', function(data) {
+        alert(data);
+      });
+      log1('Opération réussie !')
+			})
+		});
+	})
+
+    var log2 = console.log.bind(console);
+	$(function () {
+		$(".CalibrationSPV").click(function () {
+			jConfirm('Astuce', 'Voulez-vous calibrer le volume de la chambre de réaction ?', 'Valider', function () {
+      $.getJSON('/CalibrationSPV', function(data) {
+        alert(data);
+      });
+      log2('Opération réussie !')
+			})
+		});
+	})
+
+        var log3 = console.log.bind(console);
+	$(function () {
+		$(".CalibrationACIV").click(function () {
+			jConfirm('Astuce', 'Voulez-vous calibrer le débit de la pompe réactive ?', 'Valider', function () {
+      $.getJSON('/CalibrationACIV', function(data) {
+        alert(data);
+      });
+      log3('Opération réussie !')
+			})
+		});
+	})
+
+            var log4 = console.log.bind(console);
+	$(function () {
+		$(".CalibrationKHpump").click(function () {
+			jConfirm('Astuce', 'Voulez-vous calibrer le débit de la pompe de titration ?', 'Valider', function () {
+      $.getJSON('/CalibrationKHpump', function(data) {
+        alert(data);
+      });
+      log4('Opération réussie !')
+			})
+		});
+	})
+
+    var log5 = console.log.bind(console);
+	$(function () {
+		$(".openinpump").click(function () {
+			jConfirm('Astuce', 'Voulez-vous activer la pompe d\'entrée ?', 'Valider', function () {
+      $.getJSON('/Inpumpon', function(data) {
+        alert(data);
+      });
+      log5('Opération réussie !')
+			})
+		});
+	})
+
+        var log6 = console.log.bind(console);
+	$(function () {
+		$(".closeinpump").click(function () {
+			jConfirm('Astuce', 'Voulez-vous désactiver la pompe d\'entrée ?', 'Valider', function () {
+      $.getJSON('/Inpumpoff', function(data) {
+        alert(data);
+      });
+      log6('Opération réussie !')
+			})
+		});
+	})
+var log7 = console.log.bind(console);
+$(function () {
+	$(".openoutpump").click(function () {
+		jConfirm('Astuce', 'Voulez-vous activer la pompe de sortie ?', 'Valider', function () {
+      $.getJSON('/Outpumpon', function(data) {
+        alert(data);
+      });
+      log7('Opération réussie !')
+		})
+	});
+});
+
+var log8 = console.log.bind(console);
+$(function () {
+	$(".closeoutpump").click(function () {
+		jConfirm('Astuce', 'Voulez-vous désactiver la pompe de sortie ?', 'Valider', function () {
+      $.getJSON('/Outpumpoff', function(data) {
+        alert(data);
+      });
+      log8('Opération réussie !')
+		})
+	});
+});
+
+var log9 = console.log.bind(console);
+$(function () {
+	$(".openKHpump").click(function () {
+		jConfirm('Astuce', 'Voulez-vous activer la pompe de titration ?', 'Valider', function () {
+      $.getJSON('/KHpumpon', function(data) {
+        alert(data);
+      });
+      log9('Opération réussie !')
+		})
+	});
+});
+
+var log10 = console.log.bind(console);
+$(function () {
+	$(".closeKHpump").click(function () {
+		jConfirm('Astuce', 'Voulez-vous désactiver la pompe de titration ?', 'Valider', function () {
+      $.getJSON('/KHpumpoff', function(data) {
+        alert(data);
+      });
+      log10('Opération réussie !')
+		})
+	});
+});
+
+var log11 = console.log.bind(console);
+$(function () {
+	$(".openpharmacypump").click(function () {
+		jConfirm('Astuce', 'Voulez-vous activer la pompe réactive ?', 'Valider', function () {
+      $.getJSON('/pharmacypumpon', function(data) {
+        alert(data);
+      });
+      log11('Opération réussie !')
+		})
+	});
+});
+
+var log12 = console.log.bind(console);
+$(function () {
+	$(".closepharmacypump").click(function () {
+		jConfirm('Astuce', 'Voulez-vous désactiver la pompe réactive ?', 'Valider', function () {
+      $.getJSON('/pharmacypumpoff', function(data) {
+        alert(data);
+      });
+      log12('Opération réussie !')
+		})
+	});
+});
+</script>
+<script>
+function f1() {
+    $('.setSPV').on('click', function () {
+        opt1 = $("#sampleV1").val();
+        $.ajax({
+            url: "{{ url_for('getSPV') }}",
+            type: "POST",
+            data: JSON.stringify({opt1}),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data){
+                alert("Le volume actuel de la chambre de réaction est : " + data);
+            }
+        });
+    });
+}
+
+function f2(){
+    $('.setACIV').on('click', function () {
+        opt2 = $("#ACIV").val();
+        $.ajax({
+            url: "{{ url_for('getACIV') }}",
+            type: "POST",
+            data: JSON.stringify({opt2}),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data){
+                alert("Le débit actuel de la pompe réactive est : " + data);
+            }
+        });
+    });
+}
+function f3(){
+    $('.KHpump').on('click', function () {
+        opt3 = $("#KHpump").val();
+        $.ajax({
+            url: "{{ url_for('getKHpump') }}",
+            type: "POST",
+            data: JSON.stringify({opt3}),
+            contentType: "application/json",
+            dataType: "json",
+            success: function(data){
+                alert("Le débit actuel de la pompe de titration est : " + data);
+            }
+        });
+    });
+}
+
+function addLoadEvent(func){	// Cette fonction a été écrite par Simon Willison
+    var oldonload = window.onload;
+    if (typeof window.onload != 'function'){
+        window.onload = func;
+    } else {
+        window.onload = function(){
+            oldonload();
+            func();
+        }
+    }
+}
+
+addLoadEvent(f1);
+addLoadEvent(f2);
+addLoadEvent(f3);
+</script>
+<script>
+var update1 = function () {
+    // Utilisation de jQuery
+    $(document).ready(function(){
+        $.get("/readSPV",function(data){
+            $("#samplev").html(data);
+        });
+    });
+    return update1;
+};
+$(document).ready(function(){
+    setInterval(update1(), 2000);
+});
+
+var update2 = function () {
+    // Utilisation de jQuery
+    $(document).ready(function(){
+        $.get("/readACIV",function(data){
+            $("#ACIV1").html(data);
+        });
+    });
+    return update2;
+};
+$(document).ready(function(){
+    setInterval(update2(), 2000);
+});
+
+var update3 = function () {
+    // Utilisation de jQuery
+    $(document).ready(function(){
+        $.get("/readKHpump",function(data){
+            $("#KHpump1").html(data);
+        });
+    });
+    return update3;
+};
+$(document).ready(function(){
+    setInterval(update3(), 2000);
+});
+</script>
+</body>
+</html>
